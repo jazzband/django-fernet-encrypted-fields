@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.9"
+env:
+  - DJANGO_VERSION=2.2
+  - DJANGO_VERSION=3.0
+  - DJANGO_VERSION=3.1
+  - DJANGO_VERSION=3.2
+  - DJANGO_VERSION=4.0a1
+install:
+  - pip install -q Django==$DJANGO_VERSION
+  - pip install -q -r requirements.txt
+script: python manage.py test

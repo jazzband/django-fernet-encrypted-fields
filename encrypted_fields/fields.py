@@ -1,22 +1,33 @@
 import base64
 from django.conf import settings
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, MultiFernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from django.db import models
+from django.utils.functional import cached_property
 
 
 class EncryptedFieldMixin(object):
-    salt = bytes(settings.SALT_KEY, 'utf-8')
-    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),
-                     length=32,
-                     salt=salt,
-                     iterations=100000,
-                     backend=default_backend())
+    @cached_property
+    def keys(self):
+        keys = []
+        salt_keys = settings.SALT_KEY if isinstance(settings.SALT_KEY, list) else [settings.SALT_KEY]
+        for salt_key in salt_keys:
+            salt = bytes(salt_key, 'utf-8')
+            kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),
+                             length=32,
+                             salt=salt,
+                             iterations=100000,
+                             backend=default_backend())
+            keys.append(base64.urlsafe_b64encode(kdf.derive(settings.SECRET_KEY.encode('utf-8'))))
+        return keys
 
-    key = base64.urlsafe_b64encode(kdf.derive(settings.SECRET_KEY.encode('utf-8')))
-    f = Fernet(key)
+    @cached_property
+    def f(self):
+        if len(self.keys) == 1:
+            return Fernet(self.keys[0])
+        return MultiFernet([Fernet(k) for k in self.keys])
 
     def get_internal_type(self):
         """

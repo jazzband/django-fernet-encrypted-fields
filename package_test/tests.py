@@ -1,7 +1,7 @@
 import re
 
 from django.db import connection
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.utils import timezone
 
 from .models import TestModel
@@ -139,3 +139,36 @@ class FieldTest(TestCase):
 
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.boolean, plaintext)
+
+
+class RotatedSaltTestCase(TestCase):
+
+    @classmethod
+    @override_settings(SALT_KEY=['abcdefghijklmnopqrstuvwxyz0123456789'])
+    def setUpTestData(cls):
+        """Create the initial record using the old salt"""
+        cls.original = TestModel.objects.create(
+            text="Oh hi test reader"
+        )
+
+    @override_settings(SALT_KEY=['newkeyhere', 'abcdefghijklmnopqrstuvwxyz0123456789'])
+    def test_rotated_salt(self):
+        """Chage the salt, keep the old one as the last in the list for reading"""
+        plaintext = "Oh hi test reader"
+        model = TestModel()
+        model.text = plaintext
+        model.save()
+
+        ciphertext = FieldTest.get_db_value(self, 'text', model.id)
+
+        self.assertNotEqual(plaintext, ciphertext)
+        self.assertTrue('test' not in ciphertext)
+
+        fresh_model = TestModel.objects.get(id=model.id)
+        self.assertEqual(fresh_model.text, plaintext)
+
+        old_record = TestModel.objects.get(id=self.original.id)
+        self.assertEqual(fresh_model.text, old_record.text)
+
+        self.assertNotEqual(ciphertext, FieldTest.get_db_value(self, 'text', self.original.pk))
+

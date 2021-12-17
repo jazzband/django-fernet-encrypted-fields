@@ -51,10 +51,20 @@ class EncryptedFieldMixin(object):
         return self.to_python(value)
 
     def to_python(self, value):
-        if value is None or not isinstance(value, str):
+        if value is None or not isinstance(value, str) or hasattr(self, '_already_decrypted'):
             return value
         value = self.f.decrypt(bytes(value, 'utf-8')).decode('utf-8')
         return super(EncryptedFieldMixin, self).to_python(value)
+
+    def clean(self, value, model_instance):
+        """
+        Create and assign a semaphore so that to_python method will not try to decrypt an already decrypted value 
+        during cleaning of a form
+        """
+        self._already_decrypted = True
+        ret = super().clean(value, model_instance)
+        del self._already_decrypted
+        return ret
 
 
 class EncryptedCharField(EncryptedFieldMixin, models.CharField):

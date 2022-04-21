@@ -1,7 +1,7 @@
 [![Build Status](https://api.travis-ci.com/frgmt/django-fernet-encrypted-fields.png)](https://travis-ci.com/frgmt/django-fernet-encrypted-fields)
 [![Pypi Package](https://badge.fury.io/py/django-fernet-encrypted-fields.png)](http://badge.fury.io/py/django-fernet-encrypted-fields)
 
-
+this is a test change
 ### Django Fernet Encrypted Fields
 
 This package was created as a successor to [django-encrypted-fields](https://github.com/defrex/django-encrypted-fields).

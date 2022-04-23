@@ -11,6 +11,10 @@ jobs:
       matrix:
         django_version: [2.2, 3.0, 3.1, 3.2, 4.0a1]
         python_version: [3.7, 3.8, 3.9, '3.10']
+        exclude:
+          # Ignore Django 4 on Python 3.7
+          - python_version: 3.7
+            django_version: 4.0
     runs-on: ubuntu-latest
 
     steps:

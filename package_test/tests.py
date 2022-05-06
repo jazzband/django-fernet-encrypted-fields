@@ -3,6 +3,7 @@ import re
 from django.db import connection
 from django.test import TestCase, override_settings
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 from .models import TestModel
 
@@ -64,8 +65,9 @@ class FieldTest(TestCase):
 
         plaintext = "text"
 
-        model.datetime = plaintext
-        model.save()
+        with self.assertRaises(ValidationError):
+            model.datetime = plaintext
+            model.save()
 
     def test_integer_field_encrypted(self):
         plaintext = 42
@@ -103,8 +105,9 @@ class FieldTest(TestCase):
 
         plaintext = "text"
 
-        model.date = plaintext
-        model.save()
+        with self.assertRaises(ValidationError):
+            model.date = plaintext
+            model.save()
 
     def test_float_field_encrypted(self):
         plaintext = 42.44
@@ -123,8 +126,9 @@ class FieldTest(TestCase):
 
         plaintext = "text"
 
-        model.floating = plaintext
-        model.save()
+        with self.assertRaises(ValueError):
+            model.floating = plaintext
+            model.save()
 
     def test_email_field_encrypted(self):
         plaintext = "test@gmail.com"
@@ -168,8 +172,9 @@ class FieldTest(TestCase):
 
         plaintext = "text"
 
-        model.boolean = plaintext
-        model.save()
+        with self.assertRaises(ValidationError):
+            model.boolean = plaintext
+            model.save()
 
 
 class RotatedSaltTestCase(TestCase):

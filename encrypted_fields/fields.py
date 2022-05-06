@@ -1,13 +1,13 @@
 import base64
-from django.utils import timezone
 
-import warnings
 from cryptography.fernet import Fernet, MultiFernet, InvalidToken
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from django.conf import settings
+from django.core import validators
 from django.db import models
+from django.db.backends.base.operations import BaseDatabaseOperations
 from django.utils.functional import cached_property
 
 
@@ -105,7 +105,38 @@ class EncryptedDateTimeField(EncryptedFieldMixin, models.DateTimeField):
 class EncryptedIntegerField(EncryptedFieldMixin, models.IntegerField):
     @cached_property
     def validators(self):
-        return [*self.default_validators, *self._validators]
+        # These validators can't be added at field initialization time since
+        # they're based on values retrieved from `connection`.
+        validators_ = [*self.default_validators, *self._validators]
+        internal_type = models.IntegerField().get_internal_type()
+        min_value, max_value = BaseDatabaseOperations.integer_field_ranges[internal_type]
+        if min_value is not None and not any(
+            (
+                isinstance(validator, validators.MinValueValidator)
+                and (
+                    validator.limit_value()
+                    if callable(validator.limit_value)
+                    else validator.limit_value
+                )
+                >= min_value
+            )
+            for validator in validators_
+        ):
+            validators_.append(validators.MinValueValidator(min_value))
+        if max_value is not None and not any(
+            (
+                isinstance(validator, validators.MaxValueValidator)
+                and (
+                    validator.limit_value()
+                    if callable(validator.limit_value)
+                    else validator.limit_value
+                )
+                <= max_value
+            )
+            for validator in validators_
+        ):
+            validators_.append(validators.MaxValueValidator(max_value))
+        return validators_
 
 
 class EncryptedDateField(EncryptedFieldMixin, models.DateField):

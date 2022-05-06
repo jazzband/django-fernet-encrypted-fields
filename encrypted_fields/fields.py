@@ -94,7 +94,9 @@ class EncryptedDateTimeField(EncryptedFieldMixin, models.DateTimeField):
 
 
 class EncryptedIntegerField(EncryptedFieldMixin, models.IntegerField):
-    pass
+    @cached_property
+    def validators(self):
+        return [*self.default_validators, *self._validators]
 
 
 class EncryptedDateField(EncryptedFieldMixin, models.DateField):

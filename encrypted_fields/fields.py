@@ -12,15 +12,25 @@ class EncryptedFieldMixin(object):
     @cached_property
     def keys(self):
         keys = []
-        salt_keys = settings.SALT_KEY if isinstance(settings.SALT_KEY, list) else [settings.SALT_KEY]
+        salt_keys = (
+            settings.SALT_KEY
+            if isinstance(settings.SALT_KEY, list)
+            else [settings.SALT_KEY]
+        )
         for salt_key in salt_keys:
-            salt = bytes(salt_key, 'utf-8')
-            kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),
-                             length=32,
-                             salt=salt,
-                             iterations=100000,
-                             backend=default_backend())
-            keys.append(base64.urlsafe_b64encode(kdf.derive(settings.SECRET_KEY.encode('utf-8'))))
+            salt = bytes(salt_key, "utf-8")
+            kdf = PBKDF2HMAC(
+                algorithm=hashes.SHA256(),
+                length=32,
+                salt=salt,
+                iterations=100000,
+                backend=default_backend(),
+            )
+            keys.append(
+                base64.urlsafe_b64encode(
+                    kdf.derive(settings.SECRET_KEY.encode("utf-8"))
+                )
+            )
         return keys
 
     @cached_property
@@ -33,13 +43,13 @@ class EncryptedFieldMixin(object):
         """
         To treat everything as text
         """
-        return 'TextField'
+        return "TextField"
 
     def get_prep_value(self, value):
         if value:
             if not isinstance(value, str):
                 value = str(value)
-            return self.f.encrypt(bytes(value, 'utf-8')).decode('utf-8')
+            return self.f.encrypt(bytes(value, "utf-8")).decode("utf-8")
         return None
 
     def get_db_prep_value(self, value, connection, prepared=False):
@@ -51,14 +61,18 @@ class EncryptedFieldMixin(object):
         return self.to_python(value)
 
     def to_python(self, value):
-        if value is None or not isinstance(value, str) or hasattr(self, '_already_decrypted'):
+        if (
+            value is None
+            or not isinstance(value, str)
+            or hasattr(self, "_already_decrypted")
+        ):
             return value
-        value = self.f.decrypt(bytes(value, 'utf-8')).decode('utf-8')
+        value = self.f.decrypt(bytes(value, "utf-8")).decode("utf-8")
         return super(EncryptedFieldMixin, self).to_python(value)
 
     def clean(self, value, model_instance):
         """
-        Create and assign a semaphore so that to_python method will not try to decrypt an already decrypted value 
+        Create and assign a semaphore so that to_python method will not try to decrypt an already decrypted value
         during cleaning of a form
         """
         self._already_decrypted = True

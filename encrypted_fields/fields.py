@@ -1,9 +1,12 @@
 import base64
-from django.conf import settings
+from django.utils import timezone
+
+import warnings
 from cryptography.fernet import Fernet, MultiFernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from django.conf import settings
 from django.db import models
 from django.utils.functional import cached_property
 
@@ -94,6 +97,18 @@ class EncryptedDateTimeField(EncryptedFieldMixin, models.DateTimeField):
 
 
 class EncryptedIntegerField(EncryptedFieldMixin, models.IntegerField):
+    def get_prep_value(self, value):
+        if value is None:
+            return None
+        try:
+            value = int(value)
+        except (TypeError, ValueError) as e:
+            raise e.__class__(
+                "Field '%s' expected a number but got %r." % (self.name, value),
+            ) from e
+        else:
+            return super().get_prep_value(value)
+
     @cached_property
     def validators(self):
         return [*self.default_validators, *self._validators]

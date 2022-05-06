@@ -62,6 +62,11 @@ class FieldTest(TestCase):
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.datetime, plaintext)
 
+        plaintext = "text"
+
+        model.datetime = plaintext
+        model.save()
+
     def test_integer_field_encrypted(self):
         plaintext = 42
 
@@ -77,6 +82,12 @@ class FieldTest(TestCase):
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.integer, plaintext)
 
+        plaintext = "text"
+
+        with self.assertRaises(ValueError):
+            model.integer = plaintext
+            model.save()
+
     def test_date_field_encrypted(self):
         plaintext = timezone.now().date()
 
@@ -89,6 +100,11 @@ class FieldTest(TestCase):
 
         self.assertNotEqual(ciphertext, plaintext.isoformat())
         self.assertEqual(fresh_model.date, plaintext)
+
+        plaintext = "text"
+
+        model.date = plaintext
+        model.save()
 
     def test_float_field_encrypted(self):
         plaintext = 42.44
@@ -105,6 +121,11 @@ class FieldTest(TestCase):
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.floating, plaintext)
 
+        plaintext = "text"
+
+        model.floating = plaintext
+        model.save()
+
     def test_email_field_encrypted(self):
         plaintext = "test@gmail.com"
 
@@ -119,6 +140,11 @@ class FieldTest(TestCase):
 
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.email, plaintext)
+
+        plaintext = "text"
+
+        model.email = plaintext
+        model.save()
 
     def test_boolean_field_encrypted(self):
         plaintext = True
@@ -139,6 +165,11 @@ class FieldTest(TestCase):
 
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.boolean, plaintext)
+
+        plaintext = "text"
+
+        model.boolean = plaintext
+        model.save()
 
 
 class RotatedSaltTestCase(TestCase):

@@ -3,6 +3,7 @@ import re
 from django.db import connection
 from django.test import TestCase, override_settings
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 from .models import TestModel
 
@@ -22,6 +23,7 @@ class FieldTest(TestCase):
 
         model = TestModel()
         model.char = plaintext
+        model.full_clean()
         model.save()
 
         ciphertext = self.get_db_value("char", model.id)
@@ -37,6 +39,7 @@ class FieldTest(TestCase):
 
         model = TestModel()
         model.text = plaintext
+        model.full_clean()
         model.save()
 
         ciphertext = self.get_db_value("text", model.id)
@@ -52,6 +55,7 @@ class FieldTest(TestCase):
 
         model = TestModel()
         model.datetime = plaintext
+        model.full_clean()
         model.save()
 
         ciphertext = self.get_db_value("datetime", model.id)
@@ -62,11 +66,19 @@ class FieldTest(TestCase):
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.datetime, plaintext)
 
+        plaintext = "text"
+
+        with self.assertRaises(ValidationError):
+            model.datetime = plaintext
+            model.full_clean()
+            model.save()
+
     def test_integer_field_encrypted(self):
         plaintext = 42
 
         model = TestModel()
         model.integer = plaintext
+        model.full_clean()
         model.save()
 
         ciphertext = self.get_db_value("integer", model.id)
@@ -77,11 +89,27 @@ class FieldTest(TestCase):
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.integer, plaintext)
 
+        # "IntegerField": (-2147483648, 2147483647)
+        plaintext = 2147483648
+
+        with self.assertRaises(ValidationError):
+            model.integer = plaintext
+            model.full_clean()
+            model.save()
+
+        plaintext = "text"
+
+        with self.assertRaises(TypeError):
+            model.integer = plaintext
+            model.full_clean()
+            model.save()
+
     def test_date_field_encrypted(self):
         plaintext = timezone.now().date()
 
         model = TestModel()
         model.date = plaintext
+        model.full_clean()
         model.save()
 
         ciphertext = self.get_db_value("date", model.id)
@@ -90,11 +118,19 @@ class FieldTest(TestCase):
         self.assertNotEqual(ciphertext, plaintext.isoformat())
         self.assertEqual(fresh_model.date, plaintext)
 
+        plaintext = "text"
+
+        with self.assertRaises(ValidationError):
+            model.date = plaintext
+            model.full_clean()
+            model.save()
+
     def test_float_field_encrypted(self):
         plaintext = 42.44
 
         model = TestModel()
         model.floating = plaintext
+        model.full_clean()
         model.save()
 
         ciphertext = self.get_db_value("floating", model.id)
@@ -105,11 +141,19 @@ class FieldTest(TestCase):
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.floating, plaintext)
 
+        plaintext = "text"
+
+        with self.assertRaises(ValueError):
+            model.floating = plaintext
+            model.full_clean()
+            model.save()
+
     def test_email_field_encrypted(self):
         plaintext = "test@gmail.com"
 
         model = TestModel()
         model.email = plaintext
+        model.full_clean()
         model.save()
 
         ciphertext = self.get_db_value("email", model.id)
@@ -120,11 +164,19 @@ class FieldTest(TestCase):
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.email, plaintext)
 
+        plaintext = "text"
+
+        with self.assertRaises(ValidationError):
+            model.email = plaintext
+            model.full_clean()
+            model.save()
+
     def test_boolean_field_encrypted(self):
         plaintext = True
 
         model = TestModel()
         model.boolean = plaintext
+        model.full_clean()
         model.save()
 
         ciphertext = self.get_db_value("boolean", model.id)
@@ -139,6 +191,13 @@ class FieldTest(TestCase):
 
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.boolean, plaintext)
+
+        plaintext = "text"
+
+        with self.assertRaises(ValidationError):
+            model.boolean = plaintext
+            model.full_clean()
+            model.save()
 
 
 class RotatedSaltTestCase(TestCase):

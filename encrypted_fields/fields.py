@@ -1,4 +1,6 @@
 import base64
+import json
+from typing import Optional, Type
 
 from cryptography.fernet import Fernet, MultiFernet, InvalidToken
 from cryptography.hazmat.backends import default_backend
@@ -6,10 +8,10 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from django.conf import settings
 from django.core import validators
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.db.backends.base.operations import BaseDatabaseOperations
 from django.utils.functional import cached_property
-
 
 class EncryptedFieldMixin(object):
     @cached_property
@@ -153,3 +155,46 @@ class EncryptedEmailField(EncryptedFieldMixin, models.EmailField):
 
 class EncryptedBooleanField(EncryptedFieldMixin, models.BooleanField):
     pass
+
+
+class EncryptedJSONField(EncryptedFieldMixin, models.JSONField):
+    def _encrypt_values(self, value):
+        if isinstance(value, dict):
+            return {key: self._encrypt_values(data) for key, data in value.items()}
+        elif isinstance(value, list):
+            return  [self._encrypt_values(data) for data in value]
+        else:
+            value = str(value)
+        return self.f.encrypt(bytes(value, "utf-8")).decode("utf-8")
+
+    def _decrypt_values(self, value):
+        if value is None:
+            return value
+        if isinstance(value, dict):
+            return {key: self._decrypt_values(data) for key, data in value.items()}
+        elif isinstance(value, list):
+            return  [self._decrypt_values(data) for data in value]
+        else:
+            value = str(value)
+        return self.f.decrypt(bytes(value, "utf-8")).decode("utf-8")
+
+    def get_prep_value(self, value):
+        return json.dumps(self._encrypt_values(value=value), cls=self.encoder)
+
+    def get_internal_type(self):
+        return "JSONField"
+
+    def to_python(self, value):
+        if (
+            value is None
+            or not isinstance(value, str)
+            or hasattr(self, "_already_decrypted")
+        ):
+            return value
+        try:
+            value = self._decrypt_values(value=json.loads(value))
+        except InvalidToken:
+            pass
+        except UnicodeEncodeError:
+            pass
+        return super(EncryptedFieldMixin, self).to_python(value)

@@ -199,6 +199,22 @@ class FieldTest(TestCase):
             model.full_clean()
             model.save()
 
+    def test_json_field_encrypted(self):
+        dict_values = {"key": "value", "list": ["nested", {"key": "val"}], "nested": {"child": "sibling"}}
+
+        model = TestModel()
+        model.json = dict_values
+        model.full_clean()
+        model.save()
+
+        ciphertext = self.get_db_value("json", model.id)
+
+        self.assertNotEqual(dict_values, ciphertext)
+
+        fresh_model = TestModel.objects.get(id=model.id)
+        self.assertEqual(fresh_model.json, dict_values)
+
+
 
 class RotatedSaltTestCase(TestCase):
     @classmethod

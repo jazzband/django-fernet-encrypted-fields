@@ -1,6 +1,5 @@
 import base64
 import json
-from typing import Optional, Type
 
 from cryptography.fernet import Fernet, MultiFernet, InvalidToken
 from cryptography.hazmat.backends import default_backend
@@ -8,7 +7,6 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from django.conf import settings
 from django.core import validators
-from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.db.backends.base.operations import BaseDatabaseOperations
 from django.utils.functional import cached_property

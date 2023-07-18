@@ -1,3 +1,4 @@
+import json
 import re
 
 from django.db import connection
@@ -207,13 +208,25 @@ class FieldTest(TestCase):
         model.full_clean()
         model.save()
 
-        ciphertext = self.get_db_value("json", model.id)
+        ciphertext = json.loads(self.get_db_value("json", model.id))
+
 
         self.assertNotEqual(dict_values, ciphertext)
 
         fresh_model = TestModel.objects.get(id=model.id)
         self.assertEqual(fresh_model.json, dict_values)
 
+    def test_json_field_retains_keys(self):
+        plain_value = {"key": "value", "another_key": "some value"}
+        
+        model = TestModel()
+        model.json = plain_value
+        model.full_clean()
+        model.save()
+
+        ciphertext = json.loads(self.get_db_value("json", model.id))
+
+        self.assertEqual(plain_value.keys(), ciphertext.keys())
 
 
 class RotatedSaltTestCase(TestCase):

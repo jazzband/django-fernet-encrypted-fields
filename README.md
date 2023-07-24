@@ -53,6 +53,7 @@ Currently build in and unit-tested fields. They have the same APIs as their non-
 - `EncryptedFloatField`
 - `EncryptedEmailField`
 - `EncryptedBooleanField`
+- `EncryptedJSONField`
 
 ### Compatible Django Version
 

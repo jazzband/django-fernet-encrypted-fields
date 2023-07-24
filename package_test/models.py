@@ -10,3 +10,4 @@ class TestModel(models.Model):
     floating = EncryptedFloatField(null=True, blank=True)
     email = EncryptedEmailField(null=True, blank=True)
     boolean = EncryptedBooleanField(default=False, null=True)
+    json = EncryptedJSONField(default=dict, null=True, blank=True)

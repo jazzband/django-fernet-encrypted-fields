@@ -11,9 +11,9 @@ setup(
     author="fragment.co.jp",
     author_email="info@fragment.co.jp",
     packages=["encrypted_fields"],
-    version="0.1.2",
+    version="0.1.3",
     install_requires=[
-        "Django>=2.2",
+        "Django>=3.2",
         "cryptography>=35.0.0",
     ],
 )

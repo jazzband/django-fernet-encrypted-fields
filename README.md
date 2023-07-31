@@ -1,5 +1,6 @@
-[![Build Status](https://api.travis-ci.com/frgmt/django-fernet-encrypted-fields.png)](https://travis-ci.com/frgmt/django-fernet-encrypted-fields)
+[![Build Status](https://api.travis-ci.com/jazzband/django-fernet-encrypted-fields.png)](https://travis-ci.com/jazzband/django-fernet-encrypted-fields)
 [![Pypi Package](https://badge.fury.io/py/django-fernet-encrypted-fields.png)](http://badge.fury.io/py/django-fernet-encrypted-fields)
+[![Jazzband](https://jazzband.co/static/img/badge.svg)](https://jazzband.co/)
 
 
 ### Django Fernet Encrypted Fields

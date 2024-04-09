@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.com/jazzband/django-fernet-encrypted-fields.png)](https://travis-ci.com/jazzband/django-fernet-encrypted-fields)
+[![Build Status](https://github.com/jazzband/django-fernet-encrypted-fields/actions/workflows/lint-and-test.yml/badge.svg)](https://github.com/jazzband/django-fernet-encrypted-fields/actions/workflows/lint-and-test.yml)
 [![Pypi Package](https://badge.fury.io/py/django-fernet-encrypted-fields.png)](http://badge.fury.io/py/django-fernet-encrypted-fields)
 [![Jazzband](https://jazzband.co/static/img/badge.svg)](https://jazzband.co/)
 
@@ -64,3 +64,4 @@ Currently build in and unit-tested fields. They have the same APIs as their non-
 | `4.0`                     |:heavy_check_mark:|
 | `4.1`                     |:heavy_check_mark:|
 | `4.2`                     |:heavy_check_mark:|
+| `5.0`                     |:heavy_check_mark:|

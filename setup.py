@@ -1,4 +1,3 @@
-from __future__ import print_function
 from setuptools import setup
 
 setup(
@@ -6,7 +5,7 @@ setup(
     description=("This is inspired by django-encrypted-fields."),
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="http://github.com/frgmt/django-fernet-encrypted-fields/",
+    url="https://github.com/jazzband/django-fernet-encrypted-fields",
     license="MIT",
     author="fragment.co.jp",
     author_email="info@fragment.co.jp",

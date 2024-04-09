@@ -29,26 +29,28 @@ jobs:
   test:
     strategy:
       matrix:
-        python_version: 3.8, 3.9, '3.10']
-        django_version: [3.2, 4.0, 4.1.0, 4.2.2]
+        python_version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        django_version: ["3.2", "4.0", "4.1", "4.2", "5.0"]
         exclude:
-          # Ignore Django 4 on Python 3.7
-          - python_version: 3.8
-            django_version: 4.2.2
+          - django_version: "5.0"
+            python_version: "3.8"
+          - django_version: "5.0"
+            python_version: "3.9"
+
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python_version }}
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python_version }}
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -q Django==${{ matrix.django_version }}
+        pip install -q Django~=${{ matrix.django_version }}
         pip install coverage
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
@@ -58,6 +60,6 @@ jobs:
         coverage xml
 
     - name: "Upload coverage to Codecov"
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v4
       with:
-        fail_ci_if_error: true
+        fail_ci_if_error: false

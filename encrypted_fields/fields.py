@@ -54,7 +54,7 @@ class EncryptedFieldMixin(object):
             if not isinstance(value, str):
                 value = str(value)
             return self.f.encrypt(bytes(value, "utf-8")).decode("utf-8")
-        return None
+        return ""
 
     def get_db_prep_value(self, value, connection, prepared=False):
         if not prepared:

@@ -1,0 +1,25 @@
+##################
+# ruff
+##################
+[tool.ruff]
+fix = true
+lint.fixable = ["ALL"]
+lint.ignore = ["A003", "COM812", "D", "DJ008", "ERA001", "ISC001", "PLC2401", "PLC2403", "PT011", "RUF001", "S101", "S105", "S608", "SIM103", "TC001", "TC002", "TC003", "UP040"]
+lint.select = ["ALL"]
+lint.unfixable = ["ERA001", "F401"]
+include = ["encrypted_fields/*.py", "package_test/*.py"]
+target-version = "py312"
+
+##################
+# mypy
+##################
+[tool.mypy]
+mypy_path = "$MYPY_CONFIG_FILE_DIR"
+packages = ["encrypted_fields"]
+python_version = "3.12"
+
+strict = true
+warn_unreachable = true
+warn_no_return = true
+ignore_missing_imports = true
+disallow_untyped_decorators = false

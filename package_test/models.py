@@ -1,4 +1,16 @@
-from encrypted_fields.fields import *
+from django.db import models
+
+from encrypted_fields.fields import (
+    EncryptedBooleanField,
+    EncryptedCharField,
+    EncryptedDateField,
+    EncryptedDateTimeField,
+    EncryptedEmailField,
+    EncryptedFloatField,
+    EncryptedIntegerField,
+    EncryptedJSONField,
+    EncryptedTextField,
+)
 
 
 class TestModel(models.Model):

@@ -1,0 +1,50 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+# exclude docs and static css
+exclude: |
+  (?x)^(
+    package_test/.*
+  )$
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace # Trims trailing whitespace.
+        args: [--markdown-linebreak-ext=md]
+      - id: check-ast # Checks whether the files parse as valid python.
+      - id: check-case-conflict # Checks for files that would conflict in case-insensitive filesystems.
+      - id: check-json # Attempts to load all json files to verify syntax
+      - id: check-merge-conflict # Check for files that contain merge conflict strings
+      - id: check-xml # Attempts to load all xml files to verify syntax
+      - id: check-toml # Attempts to load all toml files to verify syntax
+      - id: check-yaml # Attempts to load all yaml files to verify syntax
+        args: [--unsafe]
+      - id: end-of-file-fixer # Makes sure files end in a newline and only a newline.
+      - id: check-symlinks # Checks for symlinks which do not point to anything
+      - id: debug-statements # Check for debugger imports and py37+ breakpoint() calls in python source
+      - id: check-added-large-files # Prevent giant files from being committed
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks.git
+    rev: v1.5.5
+    hooks:
+      - id: remove-crlf # Replace CRLF end-lines by LF ones before committing
+      - id: remove-tabs # Replace tabs by whitespaces before committing
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-use-type-annotations
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier # Autoformat yaml and markdown files
+        types_or: [yaml, markdown]
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.16.0
+    hooks:
+      - id: pyupgrade
+        name: pyupgrade
+        args: [--py312-plus]

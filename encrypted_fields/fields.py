@@ -28,7 +28,7 @@ class EncryptedFieldMixin:
             if isinstance(settings.SALT_KEY, list)
             else [settings.SALT_KEY]
         )
-        secret_keys = [settings.SECRET_KEY] + (settings.SECRET_KEY_FALLBACKS or [])
+        secret_keys = [settings.SECRET_KEY] + getattr(settings, "SECRET_KEY_FALLBACKS", list())
         for secret_key in secret_keys:
             for salt_key in salt_keys:
                 salt = bytes(salt_key, "utf-8")

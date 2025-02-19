@@ -8,7 +8,7 @@ exclude: |
   )$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace # Trims trailing whitespace.
         args: [--markdown-linebreak-ext=md]
@@ -37,13 +37,13 @@ repos:
       - id: python-use-type-annotations
 
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.1.0
+    rev: v4.0.0-alpha.8
     hooks:
       - id: prettier # Autoformat yaml and markdown files
         types_or: [yaml, markdown]
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.16.0
+    rev: v3.19.1
     hooks:
       - id: pyupgrade
         name: pyupgrade

@@ -39,9 +39,18 @@ SALT_KEY = [
 ]
 ```
 
+#### Rotating SECRET_KEY
+
+When you would want to rotate your `SECRET_KEY`, set the new value and put your old secret key value to `SECRET_KEY_FALLBACKS` list. That way the existing encrypted fields will still work, but when you re-save the field or create new record, it will be encrypted with the new secret key. (supported in Django >=4.1)
+
+```python
+SECRET_KEY = "new-key"
+SECRET_KEY_FALLBACKS = ["old-key"]
+```
+
 If you wish to update the existing encrypted records simply load and re-save the models to use the new key.
 
-```
+```python
 for obj in MuModel.objects.all():
     obj.save()
 ```

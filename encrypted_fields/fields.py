@@ -28,20 +28,22 @@ class EncryptedFieldMixin:
             if isinstance(settings.SALT_KEY, list)
             else [settings.SALT_KEY]
         )
-        for salt_key in salt_keys:
-            salt = bytes(salt_key, "utf-8")
-            kdf = PBKDF2HMAC(
-                algorithm=hashes.SHA256(),
-                length=32,
-                salt=salt,
-                iterations=100000,
-                backend=default_backend(),
-            )
-            keys.append(
-                base64.urlsafe_b64encode(
-                    kdf.derive(settings.SECRET_KEY.encode("utf-8"))
+        secret_keys = [settings.SECRET_KEY] + getattr(settings, "SECRET_KEY_FALLBACKS", list())
+        for secret_key in secret_keys:
+            for salt_key in salt_keys:
+                salt = bytes(salt_key, "utf-8")
+                kdf = PBKDF2HMAC(
+                    algorithm=hashes.SHA256(),
+                    length=32,
+                    salt=salt,
+                    iterations=100_000,
+                    backend=default_backend(),
                 )
-            )
+                keys.append(
+                    base64.urlsafe_b64encode(
+                        kdf.derive(secret_key.encode("utf-8"))
+                    )
+                )
         return keys
 
     @cached_property

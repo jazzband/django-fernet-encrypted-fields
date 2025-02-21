@@ -51,7 +51,7 @@ SECRET_KEY_FALLBACKS = ["old-key"]
 If you wish to update the existing encrypted records simply load and re-save the models to use the new key.
 
 ```python
-for obj in MuModel.objects.all():
+for obj in MyModel.objects.all():
     obj.save()
 ```
 

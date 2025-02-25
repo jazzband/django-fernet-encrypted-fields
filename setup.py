@@ -10,7 +10,7 @@ setup(
     author="jazzband",
     author_email="n.anahara@fragment.co.jp",
     packages=["encrypted_fields"],
-    version="0.2.0",
+    version="0.3.0",
     install_requires=[
         "Django>=3.2",
         "cryptography>=35.0.0",

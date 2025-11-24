@@ -43,7 +43,7 @@ repos:
         types_or: [yaml, markdown]
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.21.0
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         name: pyupgrade

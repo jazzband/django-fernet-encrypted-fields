@@ -3,13 +3,13 @@ name: Lint & Test
 on:
   pull_request:
     paths:
-      - '.github/workflows/*'
-      - 'encrypted_fields/**/*'
-      - 'package_test/**/*'
-      - 'manage.py'
-      - 'requirements.txt'
-      - 'setup.py'
-      - 'pyproject.toml'
+      - ".github/workflows/*"
+      - "encrypted_fields/**/*"
+      - "package_test/**/*"
+      - "manage.py"
+      - "requirements.txt"
+      - "setup.py"
+      - "pyproject.toml"
   push:
 
 permissions:

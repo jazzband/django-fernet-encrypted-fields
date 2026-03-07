@@ -39,6 +39,15 @@ SALT_KEY = [
 ]
 ```
 
+To generate a new `SECRET_KEY`, you can use Django's `get_random_secret_key` function.
+
+```python
+from django.core.management.utils import get_random_secret_key
+
+new_secret_key = get_random_secret_key()
+print(new_secret_key)
+```
+
 #### Rotating SECRET_KEY
 
 When you would want to rotate your `SECRET_KEY`, set the new value and put your old secret key value to `SECRET_KEY_FALLBACKS` list. That way the existing encrypted fields will still work, but when you re-save the field or create new record, it will be encrypted with the new secret key. (supported in Django >=4.1)

@@ -81,7 +81,7 @@ They have the same APIs as their non-encrypted counterparts.
 ### Compatible Django Version
 
 | Compatible Django Version | Specifically tested | Python Version Required |
-| ------------------------- |---------------------| ----------------------- |
+| ------------------------- | ------------------- | ----------------------- |
 | `3.2`                     |                     | 3.8+                    |
 | `4.0`                     |                     | 3.8+                    |
 | `4.1`                     |                     | 3.8+                    |
@@ -90,7 +90,6 @@ They have the same APIs as their non-encrypted counterparts.
 | `5.1`                     | :heavy_check_mark:  | 3.10+                   |
 | `5.2`                     | :heavy_check_mark:  | 3.10+                   |
 | `6.0`                     | :heavy_check_mark:  | 3.12+                   |
-
 
 ### Contributing
 

@@ -90,3 +90,8 @@ They have the same APIs as their non-encrypted counterparts.
 | `5.1`                     | :heavy_check_mark:  | 3.10+                   |
 | `5.2`                     | :heavy_check_mark:  | 3.10+                   |
 | `6.0`                     | :heavy_check_mark:  | 3.12+                   |
+
+
+### Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.

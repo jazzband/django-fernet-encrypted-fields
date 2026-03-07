@@ -6,3 +6,4 @@ dist/
 .pypirc
 .ruff_cache
 .venv
+.venv_django_*

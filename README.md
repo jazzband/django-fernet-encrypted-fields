@@ -70,11 +70,13 @@ Currently build in and unit-tested fields. They have the same APIs as their non-
 
 ### Compatible Django Version
 
-| Compatible Django Version | Specifically tested |
-| ------------------------- | ------------------- |
-| `3.2`                     | :heavy_check_mark:  |
-| `4.0`                     | :heavy_check_mark:  |
-| `4.1`                     | :heavy_check_mark:  |
-| `4.2`                     | :heavy_check_mark:  |
-| `5.0`                     | :heavy_check_mark:  |
-| `5.1`                     | :heavy_check_mark:  |
+| Compatible Django Version | Specifically tested | Python Version Required |
+| ------------------------- | ------------------- | ----------------------- |
+| `3.2`                     | :heavy_check_mark:  | 3.8+                    |
+| `4.0`                     | :heavy_check_mark:  | 3.8+                    |
+| `4.1`                     | :heavy_check_mark:  | 3.8+                    |
+| `4.2`                     | :heavy_check_mark:  | 3.8+                    |
+| `5.0`                     | :heavy_check_mark:  | 3.10+                   |
+| `5.1`                     | :heavy_check_mark:  | 3.10+                   |
+| `5.2`                     | :heavy_check_mark:  | 3.10+                   |
+| `6.0`                     | :heavy_check_mark:  | 3.12+                   |

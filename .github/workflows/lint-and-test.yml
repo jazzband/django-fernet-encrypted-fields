@@ -1,6 +1,16 @@
 name: Lint & Test
 
-on: [push, pull_request]
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/*'
+      - 'encrypted_fields/**/*'
+      - 'package_test/**/*'
+      - 'manage.py'
+      - 'requirements.txt'
+      - 'setup.py'
+      - 'pyproject.toml'
+  push:
 
 permissions:
   contents: read

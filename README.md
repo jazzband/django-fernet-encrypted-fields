@@ -71,7 +71,7 @@ Currently build in and unit-tested fields. They have the same APIs as their non-
 ### Compatible Django Version
 
 | Compatible Django Version | Specifically tested |
-| ------------------------- |---------------------|
+| ------------------------- | ------------------- |
 | `3.2`                     |                     |
 | `4.0`                     |                     |
 | `4.1`                     |                     |

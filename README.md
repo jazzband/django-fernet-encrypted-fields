@@ -57,7 +57,8 @@ for obj in MyModel.objects.all():
 
 #### Available Fields
 
-Currently build in and unit-tested fields. They have the same APIs as their non-encrypted counterparts.
+Currently built-in and unit-tested fields include the following.
+They have the same APIs as their non-encrypted counterparts.
 
 - `EncryptedCharField`
 - `EncryptedTextField`
@@ -71,12 +72,12 @@ Currently build in and unit-tested fields. They have the same APIs as their non-
 ### Compatible Django Version
 
 | Compatible Django Version | Specifically tested | Python Version Required |
-| ------------------------- | ------------------- | ----------------------- |
-| `3.2`                     | :heavy_check_mark:  | 3.8+                    |
-| `4.0`                     | :heavy_check_mark:  | 3.8+                    |
-| `4.1`                     | :heavy_check_mark:  | 3.8+                    |
+| ------------------------- |---------------------| ----------------------- |
+| `3.2`                     |                     | 3.8+                    |
+| `4.0`                     |                     | 3.8+                    |
+| `4.1`                     |                     | 3.8+                    |
 | `4.2`                     | :heavy_check_mark:  | 3.8+                    |
-| `5.0`                     | :heavy_check_mark:  | 3.10+                   |
+| `5.0`                     |                     | 3.10+                   |
 | `5.1`                     | :heavy_check_mark:  | 3.10+                   |
 | `5.2`                     | :heavy_check_mark:  | 3.10+                   |
 | `6.0`                     | :heavy_check_mark:  | 3.12+                   |

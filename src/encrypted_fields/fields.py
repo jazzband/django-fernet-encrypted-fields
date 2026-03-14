@@ -24,9 +24,7 @@ class EncryptedFieldMixin:
     def keys(self) -> list[bytes]:
         keys = []
         salt_keys = (
-            settings.SALT_KEY
-            if isinstance(settings.SALT_KEY, list)
-            else [settings.SALT_KEY]
+            settings.SALT_KEY if isinstance(settings.SALT_KEY, list) else [settings.SALT_KEY]
         )
         secret_keys = [settings.SECRET_KEY] + getattr(settings, "SECRET_KEY_FALLBACKS", list())
         for secret_key in secret_keys:
@@ -39,11 +37,7 @@ class EncryptedFieldMixin:
                     iterations=100_000,
                     backend=default_backend(),
                 )
-                keys.append(
-                    base64.urlsafe_b64encode(
-                        kdf.derive(secret_key.encode("utf-8"))
-                    )
-                )
+                keys.append(base64.urlsafe_b64encode(kdf.derive(secret_key.encode("utf-8"))))
         return keys
 
     @cached_property
@@ -85,11 +79,7 @@ class EncryptedFieldMixin:
         return self.to_python(value)
 
     def to_python(self, value: _TypeAny) -> _TypeAny:
-        if (
-            value is None
-            or not isinstance(value, str)
-            or hasattr(self, "_already_decrypted")
-        ):
+        if value is None or not isinstance(value, str) or hasattr(self, "_already_decrypted"):
             return value
         try:
             value = self.f.decrypt(bytes(value, "utf-8")).decode("utf-8")
@@ -129,9 +119,7 @@ class EncryptedIntegerField(EncryptedFieldMixin, models.IntegerField):
         # they're based on values retrieved from `connection`.
         validators_ = [*self.default_validators, *self._validators]
         internal_type = models.IntegerField().get_internal_type()
-        min_value, max_value = BaseDatabaseOperations.integer_field_ranges[
-            internal_type
-        ]
+        min_value, max_value = BaseDatabaseOperations.integer_field_ranges[internal_type]
         if min_value is not None and not any(
             (
                 isinstance(validator, MinValueValidator)
@@ -203,11 +191,7 @@ class EncryptedJSONField(EncryptedFieldMixin, models.JSONField):
         return "JSONField"
 
     def to_python(self, value: _TypeAny) -> _TypeAny:
-        if (
-            value is None
-            or not isinstance(value, str)
-            or hasattr(self, "_already_decrypted")
-        ):
+        if value is None or not isinstance(value, str) or hasattr(self, "_already_decrypted"):
             return value
         try:
             value = self._decrypt_values(value=json.loads(value))

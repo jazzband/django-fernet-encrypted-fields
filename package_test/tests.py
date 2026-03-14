@@ -13,9 +13,7 @@ from .models import TestModel
 class FieldTest(TestCase):
     def get_db_value(self, field: str, model_id: int) -> None:
         cursor = connection.cursor()
-        cursor.execute(
-            f"select {field} from package_test_testmodel where id = {model_id};"
-        )
+        cursor.execute(f"select {field} from package_test_testmodel where id = {model_id};")
         return cursor.fetchone()[0]
 
     def test_char_field_encrypted(self) -> None:
@@ -258,14 +256,13 @@ class RotatedSaltTestCase(TestCase):
 
 
 class RotatedSecretKeyTestCase(TestCase):
-
     @staticmethod
     def clear_cached_properties():
         # we have to clear the cached properties of EncryptedFieldMixin so we have the right encryption keys
-        text_field = TestModel._meta.get_field('text')
-        if hasattr(text_field, 'keys'):
+        text_field = TestModel._meta.get_field("text")
+        if hasattr(text_field, "keys"):
             del text_field.keys
-        if hasattr(text_field, 'f'):
+        if hasattr(text_field, "f"):
             del text_field.f
 
     @classmethod
@@ -308,4 +305,3 @@ class RotatedSecretKeyTestCase(TestCase):
         assert old_record.text.endswith("=")
         # assert that old record cannot be decrypted now
         assert old_record.text != plaintext
-

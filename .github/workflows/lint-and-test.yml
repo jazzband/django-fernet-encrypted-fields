@@ -29,6 +29,8 @@ jobs:
         uses: astral-sh/ruff-action@v3
         with:
           version: ">=0.15,<0.16"
+          # use args to avoid the default behavior of running ruff check automatically
+          args: "--version"
           # ToDo: use pyrpoject.toml as version-file
           # version-file: "pyproject.toml"
 

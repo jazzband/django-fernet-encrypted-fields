@@ -7,7 +7,7 @@ license = "MIT"
 authors = [
     { name = "jazzband", email = "n.anahara@fragment.co.jp" },
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "Django>=4.2",
     "cryptography>=35.0.0",

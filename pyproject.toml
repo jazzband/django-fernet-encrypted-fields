@@ -1,3 +1,26 @@
+[project]
+name = "django-fernet-encrypted-fields"
+version = "0.3.1"
+description = "Symetrically encrypted model fields for Django"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "jazzband", email = "n.anahara@fragment.co.jp" },
+]
+requires-python = ">=3.8"
+dependencies = [
+    "Django>=4.2",
+    "cryptography>=35.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jazzband/django-fernet-encrypted-fields/"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
 ##################
 # ruff
 ##################

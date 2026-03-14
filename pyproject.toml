@@ -5,6 +5,7 @@
 fix = true
 extend-include = ["package_test/**/*.py"]
 target-version = "py310"
+line-length = 100
 
 [tool.ruff.lint]
 fixable = ["ALL"]

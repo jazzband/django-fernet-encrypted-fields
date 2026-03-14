@@ -7,3 +7,6 @@ dist/
 .ruff_cache
 .venv
 .venv_django_*
+
+# Node
+node_modules/

@@ -1,7 +1,7 @@
 [project]
 name = "django-fernet-encrypted-fields"
 version = "0.3.1"
-description = "Symetrically encrypted model fields for Django"
+description = "Symmetrically encrypted model fields for Django"
 readme = "README.md"
 license = "MIT"
 authors = [

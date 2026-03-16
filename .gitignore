@@ -1,3 +1,12 @@
+# Python
+.Python
+.eggs/
+lib64/
+sdist/
+var/
+__pycache__/
+*$py.class
+*.so
 *.egg-info/
 *.pyc
 build/
@@ -7,3 +16,6 @@ dist/
 .ruff_cache
 .venv
 .venv_django_*
+
+# Node
+node_modules/

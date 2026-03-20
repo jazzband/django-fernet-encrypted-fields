@@ -3,12 +3,38 @@
 ##################
 [tool.ruff]
 fix = true
-lint.fixable = ["ALL"]
-lint.ignore = ["A003", "COM812", "D", "DJ008", "ERA001", "ISC001", "PLC2401", "PLC2403", "PT011", "RUF001", "S101", "S105", "S608", "SIM103", "TC001", "TC002", "TC003", "UP040"]
-lint.select = ["ALL"]
-lint.unfixable = ["ERA001", "F401"]
-include = ["encrypted_fields/*.py", "package_test/*.py"]
-target-version = "py312"
+extend-include = ["package_test/**/*.py"]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+extend-ignore = [
+    "RUF012",
+    "A003",
+    "COM812",
+    "D",
+    "DJ008",
+    "ERA001",
+    "ISC001",
+    "PLC2401",
+    "PLC2403",
+    "PT011",
+    "RUF001",
+    "S101",
+    "S105",
+    "S608",
+    "SIM103",
+    "TC001",
+    "TC002",
+    "TC003",
+    "UP040"
+]
+select = ["ALL"]
+unfixable = [
+    "ERA001",
+    "F401"
+]
 
 ##################
 # mypy

@@ -48,3 +48,11 @@ repos:
       - id: pyupgrade
         name: pyupgrade
         args: [--py312-plus]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.6
+    hooks:
+      # uncomment after linting initially passes
+      #      - id: ruff-check
+      #        args: [ --fix ]
+      - id: ruff-format

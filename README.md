@@ -39,6 +39,15 @@ SALT_KEY = [
 ]
 ```
 
+To generate a new `SECRET_KEY`, you can use Django's `get_random_secret_key` function.
+
+```python
+from django.core.management.utils import get_random_secret_key
+
+new_secret_key = get_random_secret_key()
+print(new_secret_key)
+```
+
 #### Rotating SECRET_KEY
 
 When you would want to rotate your `SECRET_KEY`, set the new value and put your old secret key value to `SECRET_KEY_FALLBACKS` list. That way the existing encrypted fields will still work, but when you re-save the field or create new record, it will be encrypted with the new secret key. (supported in Django >=4.1)
@@ -57,7 +66,8 @@ for obj in MyModel.objects.all():
 
 #### Available Fields
 
-Currently build in and unit-tested fields. They have the same APIs as their non-encrypted counterparts.
+Currently built-in and unit-tested fields include the following.
+They have the same APIs as their non-encrypted counterparts.
 
 - `EncryptedCharField`
 - `EncryptedTextField`
@@ -72,11 +82,15 @@ Currently build in and unit-tested fields. They have the same APIs as their non-
 
 | Compatible Django Version | Specifically tested | Python Version Required |
 | ------------------------- | ------------------- | ----------------------- |
-| `3.2`                     | :heavy_check_mark:  | 3.8+                    |
-| `4.0`                     | :heavy_check_mark:  | 3.8+                    |
-| `4.1`                     | :heavy_check_mark:  | 3.8+                    |
+| `3.2`                     |                     | 3.8+                    |
+| `4.0`                     |                     | 3.8+                    |
+| `4.1`                     |                     | 3.8+                    |
 | `4.2`                     | :heavy_check_mark:  | 3.8+                    |
-| `5.0`                     | :heavy_check_mark:  | 3.10+                   |
+| `5.0`                     |                     | 3.10+                   |
 | `5.1`                     | :heavy_check_mark:  | 3.10+                   |
 | `5.2`                     | :heavy_check_mark:  | 3.10+                   |
 | `6.0`                     | :heavy_check_mark:  | 3.12+                   |
+
+### Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.

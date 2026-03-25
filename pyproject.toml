@@ -1,3 +1,35 @@
+[project]
+name = "django-fernet-encrypted-fields"
+version = "0.3.1"
+description = "Symmetrically encrypted model fields for Django"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "jazzband", email = "n.anahara@fragment.co.jp" },
+]
+requires-python = ">=3.10"
+dependencies = [
+    "Django>=4.2",
+    "cryptography>=35.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jazzband/django-fernet-encrypted-fields/"
+
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1,<2",
+    "pre-commit>=4.5.1",
+    "ruff>=0.15.6,<0.16.0",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "coverage>=7.13.4,<8.0.0",
+]
+
 ##################
 # ruff
 ##################
@@ -7,7 +39,7 @@ lint.fixable = ["ALL"]
 lint.ignore = ["A003", "COM812", "D", "DJ008", "ERA001", "ISC001", "PLC2401", "PLC2403", "PT011", "RUF001", "S101", "S105", "S608", "SIM103", "TC001", "TC002", "TC003", "UP040"]
 lint.select = ["ALL"]
 lint.unfixable = ["ERA001", "F401"]
-include = ["encrypted_fields/*.py", "package_test/*.py"]
+extend-include = ["package_test/**/*.py"]
 target-version = "py312"
 
 ##################

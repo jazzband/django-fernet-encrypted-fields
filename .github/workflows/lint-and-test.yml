@@ -58,17 +58,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install --group dev .
           pip install -q Django~=${{ matrix.django_version }}
-          pip install coverage pytest
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run tests
         run: |
-          coverage3 run --source='./encrypted_fields' manage.py test
+          coverage run --source='./src/encrypted_fields' manage.py test
           coverage xml
-
-#    - name: "Upload coverage to Artifact"
-#      uses: actions/upload-artifact@v4
-#      with:
-#        name: coverage
-#        path: coverage.xml

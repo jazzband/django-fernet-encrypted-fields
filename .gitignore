@@ -16,6 +16,8 @@ dist/
 .ruff_cache
 .venv
 .venv_django_*
+.coverage*
+coverage.*
 
 # Node
 node_modules/

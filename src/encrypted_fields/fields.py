@@ -174,7 +174,11 @@ class EncryptedEmailField(EncryptedFieldMixin, models.EmailField):
 
 
 class EncryptedBooleanField(EncryptedFieldMixin, models.BooleanField):
-    pass
+    def get_prep_value(self, value: _TypeAny) -> _TypeAny:
+        value = models.BooleanField.get_prep_value(self, value)
+        if value is None:
+            return None
+        return self.f.encrypt(str(value).encode("utf-8")).decode("utf-8")
 
 
 class EncryptedJSONField(EncryptedFieldMixin, models.JSONField):

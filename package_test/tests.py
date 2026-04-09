@@ -195,6 +195,19 @@ class FieldTest(TestCase):
 
         with pytest.raises(ValidationError):
             model.save()
+    
+    def test_encrypted_boolean_field_preserves_true_false_and_none(self) -> None:
+        true_obj = TestModel.objects.create(boolean=True)
+        false_obj = TestModel.objects.create(boolean=False)
+        none_obj = TestModel.objects.create(boolean=None)
+
+        true_obj.refresh_from_db()
+        false_obj.refresh_from_db()
+        none_obj.refresh_from_db()
+
+        assert true_obj.boolean is True
+        assert false_obj.boolean is False
+        assert none_obj.boolean is None
 
     def test_json_field_encrypted(self) -> None:
         dict_values = {

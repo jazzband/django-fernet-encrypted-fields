@@ -95,9 +95,11 @@ class EncryptedFieldMixin:
         to decrypt an already decrypted value during cleaning of a form
         """
         self._already_decrypted = True
-        ret = super().clean(value, model_instance)
-        del self._already_decrypted
-        return ret
+
+        try:
+            return super().clean(value, model_instance)
+        finally:
+            del self._already_decrypted
 
 
 class EncryptedCharField(EncryptedFieldMixin, models.CharField):

@@ -48,6 +48,19 @@ class FieldTest(TestCase):
         fresh_model = TestModel.objects.get(id=model.id)
         assert fresh_model.text == plaintext
 
+    def test_validation_error_does_not_break_future_decryption(self) -> None:
+        field = TestModel._meta.get_field("integer")
+
+        with pytest.raises(ValidationError):
+            field.clean(2147483648, None)
+
+        plaintext = 42
+
+        model = TestModel.objects.create(integer=plaintext)
+        fresh_model = TestModel.objects.get(id=model.id)
+
+        assert fresh_model.integer == plaintext
+
     def test_datetime_field_encrypted(self) -> None:
         plaintext = timezone.now()
 
